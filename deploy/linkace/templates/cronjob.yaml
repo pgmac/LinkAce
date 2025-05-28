@@ -4,6 +4,9 @@ metadata:
   name: {{ include "linkace.fullname" . }}-cronjob
 spec:
   schedule: "* * * * *"
+  concurrencyPolicy: Forbid  # Set these via values
+  successfulJobsHistoryLimit: 1
+  failedJobsHistoryLimit: 2
   jobTemplate:
     spec:
       template:
