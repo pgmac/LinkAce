@@ -15,6 +15,35 @@ linkace:
   logsVolumeSize: 500Mi
   logsStorageClassName: default
 
+# This config should contain the same contents as the provided .env.k8s file
+config:
+  # existingSecret: ""   # Use this when !null/empty. It must be the name of an existing secret that's been created outside of this helm chart.
+  data: {}  # Fill this out when existingSecret is null/empty. Beware of secrets.
+  # APP_KEY: someRandomStringWith32Characters
+  # DB_CONNECTION: mysql
+  # DB_HOST: linkace-mariadb
+  # DB_PORT: 3306
+  # DB_DATABASE: linkace
+  # DB_USERNAME: linkace
+  # DB_PASSWORD: ChangeThisToASecurePassword!
+  # 
+  # REDIS_HOST: linkace-redis
+  # REDIS_PASSWORD: ChangeThisToASecurePassword!
+  # REDIS_PORT: 6379
+  # 
+  # MAIL_FROM_ADDRESS: your@email.com
+  # MAIL_FROM_NAME: LinkAce
+  # MAIL_DRIVER: smtp
+  # MAIL_HOST: smtp.mailtrap.io
+  # MAIL_PORT: 2525
+  # MAIL_USERNAME: null
+  # MAIL_PASSWORD: null
+  # MAIL_ENCRYPTION: null
+  # 
+  # BACKUP_ENABLED: true
+  # SESSION_DRIVER: redis
+  # CACHE_DRIVER: redis
+
 database:
   # if you have an existing database, set enabled: false
   enabled: true
