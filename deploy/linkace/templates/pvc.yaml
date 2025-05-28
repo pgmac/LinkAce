@@ -19,7 +19,7 @@ metadata:
 spec:
   accessModes:
     - ReadWriteMany
-  storageClassName: {{ .Values.linkace.backupsStorageClassName }}
+  storageClassName: {{ .Values.linkace.backupStorageClassName }}
   resources:
     requests:
       storage: {{ .Values.linkace.backupVolumeSize }}
