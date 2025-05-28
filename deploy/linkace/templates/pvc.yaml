@@ -2,7 +2,7 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: {{ .Release.Name }}-app-backups-pvc
+  name: {{ .Release.Name }}-app-logs-pvc
 spec:
   accessModes:
     - ReadWriteMany
@@ -14,7 +14,7 @@ spec:
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: {{ .Release.Name }}-app-logs-pvc
+  name: {{ .Release.Name }}-app-backups-pvc
 spec:
   accessModes:
     - ReadWriteMany
