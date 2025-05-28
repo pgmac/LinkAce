@@ -6,6 +6,7 @@ metadata:
 spec:
   accessModes:
     - ReadWriteMany
+  storageClassName: {{ .Values.linkace.logsStorageClassName }}
   resources:
     requests:
       storage: {{ .Values.linkace.logsVolumeSize }}
@@ -18,11 +19,10 @@ metadata:
 spec:
   accessModes:
     - ReadWriteMany
+  storageClassName: {{ .Values.linkace.backupStorageClassName }}
   resources:
     requests:
       storage: {{ .Values.linkace.backupVolumeSize }}
-
-
 {{- if .Values.database.enabled }}
 ---
 # MariaDB data volume
@@ -33,6 +33,7 @@ metadata:
 spec:
   accessModes:
     - ReadWriteOnce
+  storageClassName: {{ .Values.database.storageClassName }}
   resources:
     requests:
       storage: {{ .Values.database.volumeSize }}
@@ -48,6 +49,7 @@ metadata:
 spec:
   accessModes:
     - ReadWriteOnce
+  storageClassName: {{ .Values.redis.storageClassName }}
   resources:
     requests:
       storage: {{ .Values.redis.volumeSize }}

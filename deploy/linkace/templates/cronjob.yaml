@@ -4,6 +4,9 @@ metadata:
   name: {{ include "linkace.fullname" . }}-cronjob
 spec:
   schedule: "* * * * *"
+  concurrencyPolicy: Forbid  # Set these via values
+  successfulJobsHistoryLimit: 1
+  failedJobsHistoryLimit: 2
   jobTemplate:
     spec:
       template:
@@ -22,7 +25,7 @@ spec:
               command: ["php", "artisan", "schedule:run"]
               envFrom:
                 - secretRef:
-                    name: {{ .Release.Name }}-env
+                    name: {{ default .Release.Name .Values.config.existingSecret }}-env
               volumeMounts:
                 - name: {{ .Release.Name }}-app-logs
                   mountPath: "/app/storage/logs"
