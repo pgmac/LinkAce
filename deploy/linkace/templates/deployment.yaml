@@ -51,7 +51,7 @@ spec:
               containerPort: {{ .Values.service.port }}
           envFrom:
             - secretRef:
-                name: {{ .Release.Name }}-env
+                name: {{ default .Release.Name .Values.config.existingSecret }}-env
           livenessProbe:
             httpGet:
               path: /_health
