@@ -11,7 +11,9 @@ linkace:
   tag: "2.x-php-8.4-test"
   pullPolicy: Always
   backupVolumeSize: 1Gi
+  backupStorageClassName: default
   logsVolumeSize: 500Mi
+  logsStorageClassName: default
 
 database:
   # if you have an existing database, set enabled: false
@@ -21,6 +23,7 @@ database:
   tag: "11.5"
   pullPolicy: IfNotPresent
   volumeSize: 1Gi
+  storageClassName: default
 
 redis:
   # if you have an existing database, set enabled: false
@@ -30,6 +33,7 @@ redis:
   tag: "7.2"
   pullPolicy: IfNotPresent
   volumeSize: 1Gi
+  storageClassName: default
 
 # This is for the secrets for pulling an image from a private repository more information can be found here: https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/
 imagePullSecrets: []
