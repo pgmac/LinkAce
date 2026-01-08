@@ -1,7 +1,6 @@
 <?php
 
 return [
-
     /*
     |--------------------------------------------------------------------------
     | Default Mailer
@@ -42,6 +41,9 @@ return [
             'username' => env('MAIL_USERNAME'),
             'password' => env('MAIL_PASSWORD'),
             'timeout' => null,
+            // TLS certificate verification options
+            // Set MAIL_VERIFY_TLS=false in your .env to disable verification (not recommended for production)
+            'verify_peer' => env('MAIL_VERIFY_TLS', true),
         ],
 
         'ses' => [
@@ -113,5 +115,4 @@ return [
             resource_path('views/vendor/mail'),
         ],
     ],
-
 ];

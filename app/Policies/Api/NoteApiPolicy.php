@@ -18,12 +18,15 @@ class NoteApiPolicy
 
     public function viewAny(User $user): bool
     {
+        if ($user->isSystemUser()) {
+            return $user->tokenCan(ApiToken::ABILITY_NOTES_READ);
+        }
         return true;
     }
 
     public function view(User $user, Note $note): bool
     {
-        return $this->userCanAccessNote($user, $note);
+        return $this->userCanAccessModel($user, $note);
     }
 
     public function create(User $user): bool
@@ -33,21 +36,21 @@ class NoteApiPolicy
 
     public function update(User $user, Note $note): bool
     {
-        return $this->userCanAccessNote($user, $note);
+        return $this->userCanUpdateModel($user, $note);
     }
 
     public function delete(User $user, Note $note): bool
     {
-        return $note->user->is($user);
+        return $this->userCanDeleteModel($user, $note);
     }
 
     public function restore(User $user, Note $note): bool
     {
-        return $note->user->is($user);
+        return $this->userCanUpdateModel($user, $note);
     }
 
     public function forceDelete(User $user, Note $note): bool
     {
-        return $note->user->is($user);
+        return $this->userCanDeleteModel($user, $note);
     }
 }

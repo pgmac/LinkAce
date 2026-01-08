@@ -27,7 +27,6 @@ export default class TagsSelect {
       delimiter: ',',
       persist: false,
       create: this.selectAllowsCreation(),
-      addPrecedence: true,
       valueField: 'id',
       labelField: 'name',
       searchField: 'name',
@@ -43,7 +42,8 @@ export default class TagsSelect {
       },
       onChange: function () {
         const items = this.items.map((item) => {
-          const option = Object.values(this.options).find((option) => option.id === parseInt(item));
+          item = (typeof item === 'string' && /^\d+$/.test(item)) ? Number(item) : item;
+          const option = Object.values(this.options).find((option) => option.id === item);
           return option !== undefined ? option.id : item;
         });
         selectObject.$el.value = items.length > 0 ? JSON.stringify(items) : null;

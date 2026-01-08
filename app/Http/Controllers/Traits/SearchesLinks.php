@@ -38,7 +38,7 @@ trait SearchesLinks
     protected function buildDatabaseQuery(SearchRequest $request): Builder
     {
         // Start building the search
-        $search = Link::byUser($request->user()->id)->with(['tags']);
+        $search = Link::visibleForUser()->with(['tags']);
 
         // Search for the URL
         if ($this->searchQuery = $request->input('query')) {
