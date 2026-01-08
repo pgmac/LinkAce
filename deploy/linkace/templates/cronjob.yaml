@@ -5,10 +5,22 @@ metadata:
 spec:
   schedule: "* * * * *"
   concurrencyPolicy: Forbid  # Set these via values
-  successfulJobsHistoryLimit: 1
-  failedJobsHistoryLimit: 2
+  successfulJobsHistoryLimit: {{ .Values.cronjob.successfulJobsHistoryLimit | default 1 }}
+  failedJobsHistoryLimit: {{ .Values.cronjob.failedJobsHistoryLimit | default 2 }}
+  {{- if .Values.cronjob.startingDeadlineSeconds }}
+  startingDeadlineSeconds: {{ .Values.cronjob.startingDeadlineSeconds }}
+  {{- end }}
   jobTemplate:
     spec:
+      {{- if .Values.cronjob.activeDeadlineSeconds }}
+      activeDeadlineSeconds: {{ .Values.cronjob.activeDeadlineSeconds }}
+      {{- end }}
+      {{- if .Values.cronjob.backoffLimit }}
+      backoffLimit: {{ .Values.cronjob.backoffLimit }}
+      {{- end }}
+      {{- if .Values.cronjob.ttlSecondsAfterFinished }}
+      ttlSecondsAfterFinished: {{ .Values.cronjob.ttlSecondsAfterFinished }}
+      {{- end }}
       template:
         spec:
           restartPolicy: OnFailure
@@ -23,6 +35,10 @@ spec:
             - name: {{ .Release.Name }}-cron
               image: "{{ .Values.linkace.repository }}:{{ .Values.linkace.tag }}"
               command: ["php", "artisan", "schedule:run"]
+              {{- if .Values.cronjob.resources }}
+              resources:
+                {{- toYaml .Values.cronjob.resources | nindent 14 }}
+              {{- end }}
               envFrom:
                 - secretRef:
                     name: {{ default .Release.Name .Values.config.existingSecret }}-env
