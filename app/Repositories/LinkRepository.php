@@ -2,13 +2,13 @@
 
 namespace App\Repositories;
 
+use App\Enums\ModelAttribute;
 use App\Helper\HtmlMeta;
 use App\Helper\LinkIconMapper;
 use App\Models\Link;
 use App\Models\LinkList;
 use App\Models\Tag;
 use Exception;
-use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Log;
@@ -104,6 +104,8 @@ class LinkRepository
     public static function delete(Link $link): bool
     {
         try {
+            $link->tags()->detach();
+            $link->lists()->detach();
             $link->delete();
         } catch (Exception $e) {
             Log::error($e);
@@ -221,9 +223,9 @@ class LinkRepository
     {
         $newEntries = collect();
 
-        $privateSetting = match ($model) {
-            Tag::class => usersettings('tags_private_default') === '1',
-            LinkList::class => usersettings('lists_private_default') === '1',
+        $visibilitySetting = match ($model) {
+            Tag::class => usersettings('tags_default_visibility') ?? ModelAttribute::VISIBILITY_INTERNAL,
+            LinkList::class => usersettings('lists_default_visibility') ?? ModelAttribute::VISIBILITY_INTERNAL,
         };
 
         foreach ($entries as $entry) {
@@ -236,7 +238,7 @@ class LinkRepository
                 ], [
                     'user_id' => auth()->id(),
                     'name' => trim($entry),
-                    'is_private' => $privateSetting,
+                    'visibility' => $visibilitySetting,
                 ]);
             }
 

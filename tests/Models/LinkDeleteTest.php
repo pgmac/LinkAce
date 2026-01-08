@@ -3,6 +3,8 @@
 namespace Tests\Models;
 
 use App\Models\Link;
+use App\Models\LinkList;
+use App\Models\Tag;
 use App\Models\User;
 use App\Repositories\LinkRepository;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
@@ -24,14 +26,21 @@ class LinkDeleteTest extends TestCase
         $this->user = User::factory()->create();
     }
 
-    public function test_valid_category_creation(): void
+    public function test_correct_link_deletion(): void
     {
         $this->be($this->user);
 
         $link = Link::factory()->create();
+        $tag = Tag::factory()->create();
+        $list = LinkList::factory()->create();
+
+        $link->tags()->attach([$tag->id]);
+        $link->lists()->attach([$list->id]);
 
         $deletionResult = LinkRepository::delete($link);
 
         $this->assertTrue($deletionResult);
+        $this->assertDatabaseCount('link_lists', 0);
+        $this->assertDatabaseCount('link_tags', 0);
     }
 }

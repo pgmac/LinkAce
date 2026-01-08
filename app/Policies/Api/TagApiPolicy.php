@@ -18,6 +18,9 @@ class TagApiPolicy
 
     public function viewAny(User $user): bool
     {
+        if ($user->isSystemUser()) {
+            return $user->tokenCan(ApiToken::ABILITY_TAGS_READ);
+        }
         return true;
     }
 
@@ -38,16 +41,16 @@ class TagApiPolicy
 
     public function delete(User $user, Tag $tag): bool
     {
-        return $tag->user->is($user);
+        return $this->userCanDeleteModel($user, $tag);
     }
 
     public function restore(User $user, Tag $tag): bool
     {
-        return $tag->user->is($user);
+        return $this->userCanUpdateModel($user, $tag);
     }
 
     public function forceDelete(User $user, Tag $tag): bool
     {
-        return $tag->user->is($user);
+        return $this->userCanDeleteModel($user, $tag);
     }
 }
