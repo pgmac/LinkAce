@@ -14,6 +14,7 @@ linkace:
   backupStorageClassName: default
   logsVolumeSize: 500Mi
   logsStorageClassName: default
+  probeHost: ""  # Set to the app hostname when TrustHosts middleware restricts host headers (e.g. links.example.com)
 
 # This config should contain the same contents as the provided .env.k8s file
 config:

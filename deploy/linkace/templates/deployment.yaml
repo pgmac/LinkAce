@@ -56,10 +56,20 @@ spec:
             httpGet:
               path: /_health
               port: http
+              {{- if .Values.linkace.probeHost }}
+              httpHeaders:
+              - name: Host
+                value: {{ .Values.linkace.probeHost }}
+              {{- end }}
           readinessProbe:
             httpGet:
               path: /_health
               port: http
+              {{- if .Values.linkace.probeHost }}
+              httpHeaders:
+              - name: Host
+                value: {{ .Values.linkace.probeHost }}
+              {{- end }}
           {{- with .Values.resources }}
           resources:
             {{- toYaml . | nindent 12 }}
