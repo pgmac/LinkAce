@@ -230,7 +230,7 @@ class LinkRepository
 
         foreach ($entries as $entry) {
             if (is_int($entry) && $entry > 0) {
-                $newEntry = $model::find($entry);
+                $newEntry = $model::visibleForUser()->find($entry);
             } else {
                 $newEntry = $model::firstOrCreate([
                     'user_id' => auth()->id(),
@@ -275,6 +275,6 @@ class LinkRepository
             $key => $newData,
         ];
 
-        Event::dispatch(AuditCustom::class, [$link]);
+        Event::dispatch(new AuditCustom($link));
     }
 }
