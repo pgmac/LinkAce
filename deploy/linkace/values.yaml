@@ -140,3 +140,15 @@ autoscaling:
   maxReplicas: 10
   targetCPUUtilizationPercentage: 80
   # targetMemoryUtilizationPercentage: 80
+
+# Laravel schedule:work daemon — runs continuously and fires due jobs internally.
+# Eliminates per-minute pod lifecycle writes to the k8s API that CronJob generates.
+# When enabled, set cronjob.enabled: false to avoid duplicate job execution.
+scheduler:
+  enabled: false
+  resources: {}
+
+# CronJob running schedule:run every minute. Enabled by default for backward compatibility.
+# Set enabled: false when scheduler.enabled: true.
+cronjob:
+  enabled: true

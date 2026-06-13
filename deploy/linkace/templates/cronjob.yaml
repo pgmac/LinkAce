@@ -1,3 +1,4 @@
+{{- if .Values.cronjob.enabled }}
 apiVersion: batch/v1
 kind: CronJob
 metadata:
@@ -47,3 +48,4 @@ spec:
                   mountPath: "/app/storage/logs"
                 - name: {{ .Release.Name }}-app-backups
                   mountPath: "/app/storage/app/backups/LinkAce"
+{{- end }}

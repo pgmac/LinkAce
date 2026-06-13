@@ -1,0 +1,55 @@
+{{- if .Values.scheduler.enabled }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "linkace.fullname" . }}-scheduler
+  labels:
+    {{- include "linkace.labels" . | nindent 4 }}
+    app.kubernetes.io/component: scheduler
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      {{- include "linkace.selectorLabels" . | nindent 6 }}
+      app.kubernetes.io/component: scheduler
+  template:
+    metadata:
+      labels:
+        {{- include "linkace.labels" . | nindent 8 }}
+        app.kubernetes.io/component: scheduler
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      serviceAccountName: {{ include "linkace.serviceAccountName" . }}
+      {{- with .Values.podSecurityContext }}
+      securityContext:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      terminationGracePeriodSeconds: 30
+      volumes:
+        - name: {{ .Release.Name }}-app-logs
+          persistentVolumeClaim:
+            claimName: {{ .Release.Name }}-app-logs-pvc
+        - name: {{ .Release.Name }}-app-backups
+          persistentVolumeClaim:
+            claimName: {{ .Release.Name }}-app-backups-pvc
+      containers:
+        - name: scheduler
+          image: "{{ .Values.linkace.repository }}:{{ .Values.linkace.tag }}"
+          imagePullPolicy: {{ .Values.linkace.pullPolicy }}
+          command: ["php", "artisan", "schedule:work"]
+          envFrom:
+            - secretRef:
+                name: {{ default .Release.Name .Values.config.existingSecret }}-env
+          {{- with .Values.scheduler.resources }}
+          resources:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          volumeMounts:
+            - name: {{ .Release.Name }}-app-logs
+              mountPath: "/app/storage/logs"
+            - name: {{ .Release.Name }}-app-backups
+              mountPath: "/app/storage/app/backups/LinkAce"
+{{- end }}
