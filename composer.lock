@@ -1765,16 +1765,16 @@
         },
         {
             "name": "kovah/laravel-html-meta",
-            "version": "v5.0.0",
+            "version": "v5.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Kovah/laravel-html-meta.git",
-                "reference": "f5957c226a848cb9708b71af23634e80011abd62"
+                "reference": "3186ddae3126dcdce6e49840c168ef823083c5fa"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Kovah/laravel-html-meta/zipball/f5957c226a848cb9708b71af23634e80011abd62",
-                "reference": "f5957c226a848cb9708b71af23634e80011abd62",
+                "url": "https://api.github.com/repos/Kovah/laravel-html-meta/zipball/3186ddae3126dcdce6e49840c168ef823083c5fa",
+                "reference": "3186ddae3126dcdce6e49840c168ef823083c5fa",
                 "shasum": ""
             },
             "require": {
@@ -1827,7 +1827,7 @@
             ],
             "support": {
                 "issues": "https://github.com/Kovah/laravel-html-meta/issues",
-                "source": "https://github.com/Kovah/laravel-html-meta/tree/v5.0.0"
+                "source": "https://github.com/Kovah/laravel-html-meta/tree/v5.0.2"
             },
             "funding": [
                 {
@@ -1835,7 +1835,8 @@
                     "type": "github"
                 }
             ],
-            "time": "2026-03-24T15:14:30+00:00"
+            "time": "2026-08-28T13:31:15+00:00",
+            "published-time": "2026-08-28T13:33:41+00:00"
         },
         {
             "name": "kovah/laravel-socialite-oidc",
@@ -14970,5 +14971,5 @@
         "ext-pdo": "*"
     },
     "platform-dev": {},
-    "plugin-api-version": "2.9.0"
+    "plugin-api-version": "2.11.0"
 }
